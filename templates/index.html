@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body>
+    {% if username %}
+      <h1>Logged in as {{ username }}</h1>
+      <a href="/logout"><button type="button">Log Out</button></a>
+      <a href="/create"><button type="button">New plan</button></a>
+
+      <h2>Search</h2>
+      <form method="get" action="/">
+        <label for="title">Search by title</label><br>
+        <input type="text" id="title" name="title" value="{{ title }}"><br><br>
+
+        <p>Filter by classes</p>
+        <input type="hidden" name="searched" value="1">
+        {% for c, label in labels.items() %}
+          <input type="checkbox" id="c-{{ c }}" name="classification" value="{{ c }}"
+                 {% if c in selected %}checked{% endif %}>
+          <label for="c-{{ c }}">{{ label }}</label><br>
+        {% endfor %}
+        <br>
+
+        <button type="submit">Search</button>
+      </form>
+
+      <h2>Plans</h2>
+      {% if plans %}
+        {% for plan in plans %}
+          <div style="border: 1px solid #999; padding: 10px; margin-bottom: 20px;">
+            <h3>{{ plan.title }}</h3>
+            <p>{{ labels[plan.classification] }} · Budget: {{ plan.budget }}</p>
+
+            <ul>
+              {% for e in plan.expenses %}
+                <li>{{ e.expense_title }}: {{ e.expense_amount }}</li>
+              {% endfor %}
+            </ul>
+
+            <p>Total expenses: {{ plan.total }} · Remaining: {{ plan.budget - plan.total }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No plans found.</p>
+      {% endif %}
+    {% else %}
+      <h1>Log In</h1>
+
+      {% if error %}
+        <p>{{ error }}</p>
+      {% endif %}
+
+      <form method="post" action="/">
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password"><br><br>
+
+        <button type="submit">Log In</button>
+      </form>
+
+      <p>Don't have an account? <a href="/register">Register</a></p>
+    {% endif %}
+  </body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>New plan</title>
+    </head>
+    <body>
+        <h1>Creating a new plan</h1>
+
+        <a href="/"><button type="button">Back</button></a>
+        <br><br>
+
+        {% if error %}
+          <p>{{ error }}</p>
+        {% endif %}
+
+        <form method="post" action="/create">
+        <h2>Title</h2>
+        <input type="text" name="title" placeholder="Add a title" required>
+        <br><br>
+
+        <h2>Classification</h2>
+        <select id="classification" name="classification">
+          {% for c, label in labels.items() %}
+            <option value="{{ c }}">{{ label }}</option>
+          {% endfor %}
+        </select>
+
+        <h2>Budget</h2>
+        <input type="number" id="budget" name="budget" placeholder="Amount" min="0" step="1" required>
+
+        <h2>Expenses</h2>
+        <p>One expense is required</p>
+        {% for i in range(max_expenses) %}
+          <input type="text" name="expense_description" placeholder="Description"
+                 {% if i == 0 %}required{% endif %}>
+          <input type="number" name="expense_amount" min="0" step="1" placeholder="Amount"
+                 {% if i == 0 %}required{% endif %}><br><br>
+        {% endfor %}
+        <button type="submit">Create</button>
+        </form>
+    </body>
+</html>

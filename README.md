@@ -10,3 +10,23 @@
 * User is able to search for plans by their title.
 * Budget plans are classified as one of the following: personal, household, business or other. User is able to choose the classification of the plan.
 * If a plan is classified as "other", user is able to name the class themselves.
+
+# Installation:
+
+Install `flask`-library:
+
+```
+$ pip install flask
+```
+
+Create tables for the database:
+
+```
+$ sqlite3 database.db < schema.sql
+```
+
+You can start the web-app with the next command:
+
+```
+$ flask run
+```
